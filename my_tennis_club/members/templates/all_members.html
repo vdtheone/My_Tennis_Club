@@ -10,8 +10,9 @@
 
     <ul>
       {% for x in mymembers %}
-        <li onclick="window.location = 'details/{{ x.slug }}'">
-          <a href="details/{{ x.slug }}">{{ x.first_name }} {{ x.last_name }}</a>
+        {% comment %} <li onclick="window.location = 'details/{{ x.slug }}'"> {% endcomment %}
+        <li>
+          <a href="details/{{ x.slug }}">{{ x.first_name|capfirst }} {{ x.last_name|capfirst }}</a>
         </li>
       {% endfor %}
     </ul>
