@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="{% static 'myglobal.css' %}">
+<body>
+    {% include "mymenu.html" with me="TOBIAS" sponsor="W3SCHOOLS" %}
+
+{% for x in fruits %}
+  <h1>{{ x }}</h1>
+{% endfor %}    
+
+{% with firstname="Tobias" %}
+<h1>Hello {{ firstname }}, how are you?</h1>
+{% endwith %}
+
+{% if greeting == 1 %}
+  <h1>Hello</h1>
+{% else %}
+  <h1>Bye</h1>
+{% endif %}
+
+{% for member in members %}
+  <p>{{member.first_name}}</p>
+{% endfor %}
+
+<p>In views.py you can see what the fruits variable looks like.</p>
+
+</body>
+</html>
