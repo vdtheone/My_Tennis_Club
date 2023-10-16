@@ -6,7 +6,7 @@ from django.utils import timezone
 class Member(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    phone = models.IntegerField(default="9285741451")
+    phone = models.IntegerField()
     joined_date = models.DateField(default=timezone.now())
     slug = models.SlugField(default="", null=False)
 
