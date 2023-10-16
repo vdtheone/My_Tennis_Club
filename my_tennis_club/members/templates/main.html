@@ -1,11 +1,12 @@
 {% extends "master.html" %}
+{% load static %}
 
 {% block title %}
   My Tennis Club
 {% endblock %}
 
 
-{% block content %}
+{% comment %} {% block content %}
 <div class="main">
   <h1>My Tennis Club</h1>
 
@@ -17,4 +18,107 @@
   Date : <h5>{% now "d-m-Y" %}</h5  >
 </div>
   
-{% endblock %}
+{% endblock %} {% endcomment %}
+
+
+
+{% block content %}
+
+<!-- Hero Section -->
+<header class="hero">
+  <div class="container h-100">
+      <div class="row h-100 align-items-center">
+          <div class="col-lg-6">
+              <h1 class="display-4">Welcome to Our Tennis Club</h1>
+              <p class="lead">Join us for fun and competitive tennis games.</p>
+              <a href="members/" class="btn btn-primary btn-lg">Learn More</a>
+          </div>
+          <div class="col-lg-6">
+              <img src="{% static 'members/images/tennis_court_grass.webp' %}" alt="Tennis Court" class="img-fluid rounded-circle">
+          </div>
+      </div>
+  </div>
+</header>
+
+<!-- About Section -->
+<section id="about" class="about py-5">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-6">
+              <h2>About Us</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam aliquam nisi vel libero cursus tristique. Vestibulum convallis vel ante in venenatis. Integer vitae tortor non augue volutpat luctus. Sed id odio neque.</p>
+          </div>
+          <div class="col-md-6">
+              <img src="{% static 'members/images/tennis_women_player.jpg' %}" alt="Tennis Action" class="img-fluid">
+          </div>
+      </div>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="services bg-light py-5">
+  <div class="container">
+      <div class="text-center">
+          <h2>Our Services</h2>
+          <p>Explore our tennis club services.</p>
+      </div>
+      <div class="row">
+          <div class="col-md-4">
+              <div class="card">
+                  <img src="{% static 'members/images/tennis_court_grass.webp' %}" class="card-img-top" alt="Tennis Coaching">
+                  <div class="card-body">
+                      <h5 class="card-title">Tennis Coaching</h5>
+                      <p class="card-text">Professional coaching for all skill levels.</p>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="card">
+                  <img src="{% static 'members/images/tennis_court_grass.webp' %}" class="card-img-top" alt="Events">
+                  <div class="card-body">
+                      <h5 class="card-title">Events</h5>
+                      <p class="card-text">Exciting tennis events and tournaments.</p>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="card">
+                  <img src="{% static 'members/images/tennis_court_grass.webp' %}" class="card-img-top" alt="Membership">
+                  <div class="card-body">
+                      <h5 class="card-title">Membership</h5>
+                      <p class="card-text">Join our club and enjoy exclusive benefits.</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact py-5">
+  <div class="container">
+      <div class="text-center">
+          <h2>Contact Us</h2>
+          <p>Have questions or want to join our club? Get in touch!</p>
+      </div>
+      <div class="row">
+          <div class="col-md-6 mx-auto">
+              <form>
+                  <div class="mb-3">
+                      <input type="text" class="form-control" placeholder="Name">
+                  </div>
+                  <div class="mb-3">
+                      <input type="email" class="form-control" placeholder="Email">
+                  </div>
+                  <div class="mb-3">
+                      <textarea class="form-control" rows="5" placeholder="Message"></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</section>
+
+
+{% endblock content %}
