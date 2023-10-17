@@ -1,15 +1,20 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
+from django.core.paginator import Paginator
 
-from .forms import AddMemberForm
+
+from .forms import AddMemberForm, ContactUsForm
 from .models import Member
 
 
 # Create your views here.
 def members(request):
     mymembers = Member.objects.all().values()
-    return render(request, "all_members.html", {"mymembers": mymembers})
+    paginator = Paginator(mymembers, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "all_members.html", {'mymembers':page_obj})
 
 
 def details(request, slug):
@@ -18,8 +23,15 @@ def details(request, slug):
 
 
 def main(request):
-    template = loader.get_template("main.html")
-    return HttpResponse(template.render())
+    if request.method=='POST':
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("/")
+    else:
+        form = ContactUsForm()
+    context = {"form": form}
+    return render(request, 'main.html',context)
 
 
 def testing(request):
@@ -51,7 +63,12 @@ def add_new_member(request):
     if request.method == "POST":
         form = AddMemberForm(request.POST)
         if form.is_valid():
-            form.save()
+            first_name = form.cleaned_data["first_name"]
+            last_name = form.cleaned_data["last_name"]
+            slug = f"{first_name}-{last_name}"
+            contact = form.save(commit=False)
+            contact.slug = slug
+            contact.save()
             return redirect("/members")
     else:
         # This is a GET request, so create an empty form
@@ -77,3 +94,26 @@ def delete_member(request, id):
     member = get_object_or_404(Member, id=id)
     member.delete()
     return redirect("/members")
+
+
+def create_random_member():
+    names = ["Alice", "Bob", "Charlie", "David", "Emma", "Frank", "Grace", "Hannah", "Isaac", "Jack",
+         "Katie", "Liam", "Mia", "Nathan", "Olivia", "Peter", "Quinn", "Rachel", "Samuel", "Taylor",
+         "Ursula", "Victor", "Wendy", "Xander", "Yvonne", "Zachary"]
+    
+    last_names = ["Smith", "Johnson", "Brown", "Taylor", "Wilson", "Davis", "Miller", "Jones", "Garcia", "Rodriguez",
+              "Martinez", "Hernandez", "Lopez", "Gonzalez", "Perez", "Williams", "Lee", "Chen", "Kim", "Nguyen",
+              "Singh", "Patel", "Ali", "Muller", "Schmidt", "Meyer", "Schneider", "Fischer", "Weber", "Schulz",
+              "Schwarz", "Wong", "Chang", "Wang", "Li", "Chen", "Wu", "Liu", "Huang", "Li", "Kumar", "Rao", "Sharma",
+              "Das", "Sen", "Choudhury", "Jha", "Banerjee"]
+
+    print(len(names))
+    print(len(last_names))
+    for i in range(25):
+        slug = f"{names[i]}-{last_names[i]}"
+        new_member = Member(
+            first_name=names[i], last_name=last_names[i], phone=7854127854, slug=slug
+        )
+        new_member.save()
+
+
