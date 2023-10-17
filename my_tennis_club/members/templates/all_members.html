@@ -6,7 +6,6 @@
 
 {% block content %}
   <div class="mycard d-flex justify-content-end">
-    {% comment %} <a type="button" class="btn btn-outline-primary my-2" href="add_member">Add Member</a> {% endcomment %}
     <a type="button" class="btn btn-outline-success my-2" href="add_new_member">Add Member</a>
   </div>
 
@@ -17,33 +16,59 @@
         <h2>Members</h2>
       </div>
       <div class="row">
-        <div class="col-md-6 mx-auto">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Handle</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for x in mymembers %}
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
                 <tr>
-                  <th scope="row">{{ forloop.counter }}</th>
-                  <td>{{ x.first_name|capfirst }}</td>
-                  <td>{{ x.last_name|capfirst }}</td>
-                  <td>
-                    <a type="button" class="btn btn-outline-secondary" href="details/{{ x.slug }}">Details</a>
-                    <a type="button" class="btn btn-outline-info" href="edit/{{ x.id }}">Edit</a>
-                    <a type="button" class="btn btn-outline-danger" href="delete/{{ x.id }}">Delete</a>
-                  </td>
+                  <th scope="col">No</th>
+                  <th scope="col">First Name</th>
+                  <th scope="col">Last Name</th>
+                  <th scope="col">Action</th>
                 </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {% for x in mymembers %}
+                  <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ x.first_name|capfirst }}</td>
+                    <td>{{ x.last_name|capfirst }}</td>
+                    <td>
+                      <div class="btn-group" role="group">
+                        <a type="button" class="btn btn-outline-secondary" href="details/{{ x.slug }}">Details</a>
+                        <a type="button" class="btn btn-outline-info" href="edit/{{ x.id }}">Edit</a>
+                        <a type="button" class="btn btn-outline-danger" href="delete/{{ x.id }}">Delete</a>
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Pagination -->
+  <div class="container">
+    <div class="d-flex justify-content-center">
+      <ul class="pagination">
+        {% if mymembers.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ mymembers.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        {% for page in mymembers.paginator.page_range %}
+          <li class="page-item {% if page == mymembers.number %}active{% endif %}">
+            <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+          </li>
+        {% endfor %}
+        {% if mymembers.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ mymembers.next_page_number }}">Next</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ mymembers.paginator.num_pages }}">Last</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>
 {% endblock %}
