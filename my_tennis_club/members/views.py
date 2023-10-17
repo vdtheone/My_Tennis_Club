@@ -17,17 +17,17 @@ def members(request):
     paginator = Paginator(mymembers, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    return render(request, "all_members.html", {'mymembers':page_obj})
+    return render(request, "all_members.html", {"mymembers": page_obj})
 
 
-@login_required(login_url="/") 
+@login_required(login_url="/")
 def details(request, slug):
     mymember = Member.objects.get(slug=slug)
     return render(request, "details.html", {"mymember": mymember})
 
 
 def main(request):
-    if request.method=='POST':
+    if request.method == "POST":
         form = ContactUsForm(request.POST)
         if form.is_valid():
             form.save()
@@ -35,7 +35,7 @@ def main(request):
     else:
         form = ContactUsForm()
     context = {"form": form}
-    return render(request, 'main.html',context)
+    return render(request, "main.html", context)
 
 
 def testing(request):
@@ -87,13 +87,13 @@ def add_new_member(request):
 def update_member_details(request, id):
     obj = get_object_or_404(Member, id=id)
     if request.POST:
-      form = AddMemberForm(request.POST, instance=obj)
-      if form.is_valid():
-          form.save()
-          return redirect("/members")
+        form = AddMemberForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            return redirect("/members")
     else:
         form = AddMemberForm(instance=obj)
-    return render(request, "add_member_sample.html",{'form':form})
+    return render(request, "add_member_sample.html", {"form": form})
 
 
 @login_required(login_url="/")
@@ -103,29 +103,6 @@ def delete_member(request, id):
     return redirect("/members")
 
 
-def create_random_member():
-    names = ["Alice", "Bob", "Charlie", "David", "Emma", "Frank", "Grace", "Hannah", "Isaac", "Jack",
-         "Katie", "Liam", "Mia", "Nathan", "Olivia", "Peter", "Quinn", "Rachel", "Samuel", "Taylor",
-         "Ursula", "Victor", "Wendy", "Xander", "Yvonne", "Zachary"]
-    
-    last_names = ["Smith", "Johnson", "Brown", "Taylor", "Wilson", "Davis", "Miller", "Jones", "Garcia", "Rodriguez",
-              "Martinez", "Hernandez", "Lopez", "Gonzalez", "Perez", "Williams", "Lee", "Chen", "Kim", "Nguyen",
-              "Singh", "Patel", "Ali", "Muller", "Schmidt", "Meyer", "Schneider", "Fischer", "Weber", "Schulz",
-              "Schwarz", "Wong", "Chang", "Wang", "Li", "Chen", "Wu", "Liu", "Huang", "Li", "Kumar", "Rao", "Sharma",
-              "Das", "Sen", "Choudhury", "Jha", "Banerjee"]
-
-    print(len(names))
-    print(len(last_names))
-    for i in range(25):
-        slug = f"{names[i]}-{last_names[i]}"
-        new_member = Member(
-            first_name=names[i], last_name=last_names[i], phone=7854127854, slug=slug
-        )
-        new_member.save()
-
-
 def logout_user(request):
     logout(request)
-    return redirect('/')
-
-
+    return redirect("/")
