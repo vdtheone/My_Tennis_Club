@@ -2,6 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from django.core.paginator import Paginator
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 
 
 from .forms import AddMemberForm, ContactUsForm
@@ -9,6 +11,7 @@ from .models import Member
 
 
 # Create your views here.
+@login_required(login_url="/")
 def members(request):
     mymembers = Member.objects.all().values()
     paginator = Paginator(mymembers, 10)
@@ -17,6 +20,7 @@ def members(request):
     return render(request, "all_members.html", {'mymembers':page_obj})
 
 
+@login_required(login_url="/") 
 def details(request, slug):
     mymember = Member.objects.get(slug=slug)
     return render(request, "details.html", {"mymember": mymember})
@@ -59,6 +63,7 @@ def testing(request):
 #     return render(request, "add_member.html", {"data": 1})
 
 
+@login_required(login_url="/")
 def add_new_member(request):
     if request.method == "POST":
         form = AddMemberForm(request.POST)
@@ -78,6 +83,7 @@ def add_new_member(request):
     return render(request, "add_member_sample.html", context)
 
 
+@login_required(login_url="/")
 def update_member_details(request, id):
     obj = get_object_or_404(Member, id=id)
     if request.POST:
@@ -90,6 +96,7 @@ def update_member_details(request, id):
     return render(request, "add_member_sample.html",{'form':form})
 
 
+@login_required(login_url="/")
 def delete_member(request, id):
     member = get_object_or_404(Member, id=id)
     member.delete()
@@ -115,5 +122,10 @@ def create_random_member():
             first_name=names[i], last_name=last_names[i], phone=7854127854, slug=slug
         )
         new_member.save()
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('/')
 
 
