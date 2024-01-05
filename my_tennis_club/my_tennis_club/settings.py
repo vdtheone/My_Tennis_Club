@@ -56,11 +56,6 @@ INSTALLED_APPS = [
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
-        'APP': {
-            'client_id': os.environ.get('client_id'), 
-            'secret': os.environ.get('client_secret'),
-            # 'key': '' 
-        },
         "SCOPE": [
             "profile",
             "email",
