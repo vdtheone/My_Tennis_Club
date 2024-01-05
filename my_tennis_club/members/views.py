@@ -11,7 +11,7 @@ from .models import Member
 
 
 # Create your views here.
-@login_required(login_url="/")
+@login_required(login_url="main")
 def members(request):
     mymembers = Member.objects.all().values()
     paginator = Paginator(mymembers, 10)
@@ -20,7 +20,7 @@ def members(request):
     return render(request, "all_members.html", {"mymembers": page_obj})
 
 
-@login_required(login_url="/")
+@login_required(login_url="main")
 def details(request, slug):
     mymember = Member.objects.get(slug=slug)
     return render(request, "details.html", {"mymember": mymember})
@@ -31,7 +31,7 @@ def main(request):
         form = ContactUsForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("/")
+            return redirect("main")
     else:
         form = ContactUsForm()
     context = {"form": form}
@@ -63,7 +63,7 @@ def testing(request):
 #     return render(request, "add_member.html", {"data": 1})
 
 
-@login_required(login_url="/")
+@login_required(login_url="main")
 def add_new_member(request):
     if request.method == "POST":
         form = AddMemberForm(request.POST)
@@ -83,7 +83,7 @@ def add_new_member(request):
     return render(request, "add_member_sample.html", context)
 
 
-@login_required(login_url="/")
+@login_required(login_url="main")
 def update_member_details(request, id):
     obj = get_object_or_404(Member, id=id)
     if request.POST:
@@ -96,7 +96,7 @@ def update_member_details(request, id):
     return render(request, "add_member_sample.html", {"form": form})
 
 
-@login_required(login_url="/")
+@login_required(login_url="main")
 def delete_member(request, id):
     member = get_object_or_404(Member, id=id)
     member.delete()
@@ -105,4 +105,4 @@ def delete_member(request, id):
 
 def logout_user(request):
     logout(request)
-    return redirect("/")
+    return redirect("main")
