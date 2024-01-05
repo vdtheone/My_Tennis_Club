@@ -163,4 +163,4 @@ AUTHENTICATION_BACKENDS = (
 SOCIALACCOUNT_LOGIN_ON_GET = True  # stop to open an intermediate Allaut interface
 
 LOGIN_REDIRECT_URL = "/members"
-LOGOUT_REDIRECT_URL = "/main"
+LOGOUT_REDIRECT_URL = "/"
